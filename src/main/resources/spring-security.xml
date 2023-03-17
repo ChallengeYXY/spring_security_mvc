@@ -9,21 +9,22 @@
                             http://www.springframework.org/schema/security/spring-security.xsd
                             http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--静态资源-->
     <mvc:default-servlet-handler></mvc:default-servlet-handler>
     <mvc:annotation-driven></mvc:annotation-driven>
 
     <!--自动扫描包-->
     <context:component-scan base-package="com.yangxinyu"/>
+    <!--密码编码与解码工具-->
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
     <!--
-    认证
-    并授予当前用户访问的角色或权限
-
+    认证，并授予当前用户访问的角色或权限
     （1）：将用户名和密码：当前用户具有的角色，写死到配置文件中（现在:入门）
             security:user name="admin" :登录名
             authorities="ROLE_ADMIN"   ：角色(ROLE_ADMIN)，权限
             password="admin"          ：密码
     （2）：用户名和密码，当前用户具有的角色，从数据库中查询（后续）
--->
+    -->
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="studentServiceImpl">
 <!--
@@ -31,6 +32,7 @@
                 <security:user name="admin" authorities="ROLE_ADMIN" password="{noop}admin"></security:user>
             </security:user-service>
 -->
+            <security:password-encoder ref="bCryptPasswordEncoder"></security:password-encoder>
         </security:authentication-provider>
     </security:authentication-manager>
 

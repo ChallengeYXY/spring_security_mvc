@@ -1,5 +1,7 @@
 package com.yangxinyu.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 /**
  * @BelongsProject : spring_security_mvc
  * @BelongsPackage : com.yangxinyu.service
@@ -7,5 +9,5 @@ package com.yangxinyu.service;
  * @Author : 星宇
  * @Description :
  */
-public interface StudentService {
+public interface StudentService extends UserDetailsService {
 }

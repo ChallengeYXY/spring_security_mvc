@@ -1,12 +1,12 @@
 package com.yangxinyu.service.impl;
 
+
 import com.yangxinyu.entity.Student;
 import com.yangxinyu.service.StudentService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +22,21 @@ import java.util.Objects;
  * @Description :
  */
 @Service
-public class StudentServiceImpl implements StudentService, UserDetailsService {
+public class StudentServiceImpl implements StudentService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        //模拟从数据库拿到用户
-        Student student = new Student(1,"zhangsan","123456");
+        //模拟从数据库拿到用户通过username
+        //Student student = new Student(1,"zhangsan","123456");
+        Student student = new Student(1,"zhangsan","$2a$10$8CIphBMDaIGh1vkGLPwaL.llr/.0FdTMlueYfUk3Pr7K6Y4aIdx/W");
         //如果数据库没有该用户
         if (Objects.isNull(student)){
             return null;
         }
         //取出用户密码（数据库的密码没有进行加密）
-        String password = "{noop}" + student.getPassword();
+        //String password = "{noop}" + student.getPassword();
+        //不用进行指定解密方式了
+        String password = student.getPassword();
 
         //权限列表
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
@@ -41,6 +44,9 @@ public class StudentServiceImpl implements StudentService, UserDetailsService {
         grantedAuthorities.add(new SimpleGrantedAuthority("delete"));
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
+
+        //org.springframework.security.core.userdetails.User
         return new User(student.getUsername(),password,grantedAuthorities);
+
     }
 }
