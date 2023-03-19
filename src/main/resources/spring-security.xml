@@ -39,17 +39,27 @@
     <!--
         授权
         auto-config="true"开启自动配置 由springsecurity提供登录页面，提供登录的url地址，退出的url地址
-        对于任何访问路径，只有ROLE_ADMIN角色的账户登录成功才可以进行正常访问
+        use-expressions="true"：使用表达式的方式控制权限
     -->
     <!--<security:http security="none" pattern="/picture/**" />-->
     <security:http security="none" pattern="/login.html" />
     <security:http auto-config="false" use-expressions="true">
-        <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"></security:intercept-url>
+        <!--对于任何访问路径，只有ROLE_ADMIN角色的账户登录成功才可以进行正常访问-->
+        <!--<security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"></security:intercept-url>-->
+
+        <!--只要通过登录认证就可以访问hello.html-->
+        <security:intercept-url pattern="/index.html" access="isAuthenticated()" />
+
+        <!--只有add的角色可以访问add.hml-->
+        <security:intercept-url pattern="/add.html" access="hasAnyAuthority('add')"></security:intercept-url>
+        <!--只有delete的角色可以访问delete.hml-->
+        <security:intercept-url pattern="/delete.html" access="hasAnyAuthority('delete')"></security:intercept-url>
+
         <security:form-login login-page="/login.html"
                              username-parameter="username"
                              password-parameter="password"
-                             login-processing-url="/hello.html"
-                             default-target-url="/hello.html"
+                             login-processing-url="/index.html"
+                             default-target-url="/index.html"
                              authentication-failure-url="/login.html"
                              always-use-default-target="false"/>
         <!--关闭scrf-->

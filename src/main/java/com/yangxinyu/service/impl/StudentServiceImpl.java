@@ -10,9 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @BelongsProject : spring_security_mvc
@@ -23,12 +21,21 @@ import java.util.Objects;
  */
 @Service
 public class StudentServiceImpl implements StudentService {
+    public static Map<String,Student> studentMap;
+
+    static {
+        studentMap = new HashMap<>();
+        //studentMap.put("zhangsan",new Student(1,"zhangsan","123456"));
+        studentMap.put("zhangsan",new Student(1,"zhangsan","$2a$10$1uEfvPsea80QODxm.PxqyuT3fLyNEWAFXWL7R5bRHrWBLP0vYYDni"));
+        studentMap.put("lisi",new Student(2,"lisi","$2a$10$rwti6RbJtcoUWQB6IvmvrelmaEVFtvqHbo5obK6VEgaiSisHlhPSG"));
+
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         //模拟从数据库拿到用户通过username
-        //Student student = new Student(1,"zhangsan","123456");
-        Student student = new Student(1,"zhangsan","$2a$10$8CIphBMDaIGh1vkGLPwaL.llr/.0FdTMlueYfUk3Pr7K6Y4aIdx/W");
+        Student student = studentMap.get(s);
+
         //如果数据库没有该用户
         if (Objects.isNull(student)){
             return null;
@@ -41,8 +48,8 @@ public class StudentServiceImpl implements StudentService {
         //权限列表
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("add"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("delete"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        //grantedAuthorities.add(new SimpleGrantedAuthority("delete"));
+        //grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
 
         //org.springframework.security.core.userdetails.User
