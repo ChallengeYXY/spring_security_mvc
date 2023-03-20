@@ -25,9 +25,9 @@ public class StudentServiceImpl implements StudentService {
 
     static {
         studentMap = new HashMap<>();
-        //studentMap.put("zhangsan",new Student(1,"zhangsan","123456"));
-        studentMap.put("zhangsan",new Student(1,"zhangsan","$2a$10$1uEfvPsea80QODxm.PxqyuT3fLyNEWAFXWL7R5bRHrWBLP0vYYDni"));
-        studentMap.put("lisi",new Student(2,"lisi","$2a$10$rwti6RbJtcoUWQB6IvmvrelmaEVFtvqHbo5obK6VEgaiSisHlhPSG"));
+        //studentMap.put("zhangsan",new Student(1,"zhangsan","123456",new ArrayList<>(Arrays.asList("add","delete","ROLE_ADMIN"))));
+        studentMap.put("zhangsan",new Student(1,"zhangsan","$2a$10$1uEfvPsea80QODxm.PxqyuT3fLyNEWAFXWL7R5bRHrWBLP0vYYDni",new ArrayList<>(Arrays.asList("add"))));
+        studentMap.put("lisi",new Student(2,"lisi","$2a$10$rwti6RbJtcoUWQB6IvmvrelmaEVFtvqHbo5obK6VEgaiSisHlhPSG",new ArrayList<>(Arrays.asList("delete"))));
 
     }
 
@@ -47,9 +47,9 @@ public class StudentServiceImpl implements StudentService {
 
         //权限列表
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("add"));
-        //grantedAuthorities.add(new SimpleGrantedAuthority("delete"));
-        //grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        for (String role : student.getRoleList()) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role));
+        }
 
 
         //org.springframework.security.core.userdetails.User

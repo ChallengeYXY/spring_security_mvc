@@ -3,6 +3,8 @@ package com.yangxinyu.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @BelongsProject : spring_security_mvc
  * @BelongsPackage : com.yangxinyu.entity
@@ -16,4 +18,5 @@ public class Student {
     private Integer id;
     private String username;
     private String password;
+    private List<String> roleList;
 }

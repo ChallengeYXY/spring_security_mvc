@@ -64,5 +64,10 @@
                              always-use-default-target="false"/>
         <!--关闭scrf-->
         <security:csrf disabled="true"></security:csrf>
+
+        <!--退出登录-->
+        <security:logout logout-url="/logout" logout-success-url="/login.html" invalidate-session="true"/>
     </security:http>
+    <!--开启controller注解方法授权-->
+    <security:global-method-security pre-post-annotations="enabled"/>
 </beans>
